@@ -1,50 +1,34 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
+const mime_types = require('mime-types');
 
 const hostname = 'localhost';
 const port = 8080;
 
-function serve_file(local_path){}
+function serve_file(local_path, res) {
+    let mtype = mime_types.lookup(local_path);
     fs.readFile(local_path, (err, data) => {
         if (err) {
             res.writeHead(500, { 'Content-Type': 'text/plain' });
-            res.end('Internal Server Error');
+            res.end('Internal Server Error: ' + err);
         } else {
-            res.writeHead(200, { 'Content-Type': 'text/html' });
+            res.writeHead(200, { 'Content-Type': mtype });
             res.end(data);
         }
-
     });
-    
-)
+}
 
 const server = http.createServer((req, res) => {
-    if (req.url === '/') {
-        fs.readFile('public/index.html', (err, data) => {
-            if (err) {
-                res.writeHead(500, { 'Content-Type': 'text/plain' });
-                res.end('Internal Server Error');
-            } else {
-                res.writeHead(200, { 'Content-Type': 'text/html' });
-                res.end(data);
-            }
-        });
+    let { url, method } = req;
+    if (method === 'GET') {
+        let file_served = 'public' + url;
+        if (url === '/') {
+            file_served += 'index.html';
+        }
+        serve_file(file_served, res);
+        console.log(`Got request with url ${url} serving file at ${file_served}`);
     }
-    else {
-        fs.readFile(path.join(__dirname, req.url), (err, data) => {
-            if (err) {
-                res.writeHead(500, { 'Content-Type': 'text/plain' });
-                res.end('Internal Server Error');
-            } else {
-                res.writeHead(200, { 'Content-Type': 'text/html' });
-                res.end(data);
-            }
-            
-        });
-    }
-    
-    console.log(req.url);
 });
 
 server.listen(port, hostname, () => {
