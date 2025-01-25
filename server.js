@@ -23,6 +23,7 @@ const server = http.createServer((req, res) => {
     let { url, method } = req;
     if (method === 'GET') {
         let file_served = 'public' + url;
+        file_served.replace('/plumbing-rate-finder/','/');
         if (url === '/') {
             file_served += 'index.html';
         }
