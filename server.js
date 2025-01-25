@@ -8,6 +8,7 @@ const port = 80;
 
 function serve_file(local_path, res) {
     let mtype = mime_types.lookup(local_path);
+    console.log(`Got mime type:${mtype} trying to read file ${local_path}`);
     fs.readFile(local_path, (err, data) => {
         if (err) {
             res.writeHead(500, { 'Content-Type': 'text/plain' });
