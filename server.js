@@ -4,7 +4,7 @@ const os = require('os');
 const mime_types = require('mime-types');
 
 const hostname = os.hostname(); 
-const port = 8080;
+const port = 80;
 
 function serve_file(local_path, res) {
     let mtype = mime_types.lookup(local_path);
