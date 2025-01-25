@@ -23,10 +23,10 @@ const server = http.createServer((req, res) => {
     let { url, method } = req;
     if (method === 'GET') {
         let file_served = 'public' + url;
-        file_served.replace('/plumbing-rate-finder/','/');
-        if (url === '/') {
+        if (url === '/plumbing-rate-finder/') {
             file_served += 'index.html';
         }
+        file_served.replace('/plumbing-rate-finder/','/');
         serve_file(file_served, res);
         console.log(`Got request with url ${url} serving file at ${file_served}`);
     }
