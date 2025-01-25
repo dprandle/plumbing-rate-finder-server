@@ -1,9 +1,9 @@
 const http = require('http');
 const fs = require('fs');
-const path = require('path');
+const os = require('os');
 const mime_types = require('mime-types');
 
-const hostname = 'localhost';
+const hostname = os.hostname(); 
 const port = 8080;
 
 function serve_file(local_path, res) {
