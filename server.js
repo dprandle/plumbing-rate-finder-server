@@ -26,7 +26,7 @@ const server = http.createServer((req, res) => {
         if (url === '/plumbing-rate-finder/') {
             file_served += 'index.html';
         }
-        file_served.replace('/plumbing-rate-finder/','/');
+        file_served = file_served.replace('/plumbing-rate-finder/','/');
         serve_file(file_served, res);
         console.log(`Got request with url ${url} serving file at ${file_served}`);
     }
